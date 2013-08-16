@@ -6,8 +6,9 @@
 #   Simply run this script in the folder where you keep the wp-config.php file #
 #                                                                              #
 #   @Author: Ammon Shepherd                                                    #
-#   @Date:   03.24.11                                                          #
-   VERSION="1.2.1"
+#   @Contributor: Xornot https://github.com/Xornot/WP-Static                   #
+#   @Date:   08.16.13                                                          #
+   VERSION="1.3.0"
 #------------------------------------------------------------------------------#
 
 set -e # End the script if any statement returns a non-true return value
@@ -100,10 +101,17 @@ home_url="${home_url%/}/"
 home_path=( $(echo $home_url | cut -d'/' -f4- ) )
 home_static=( $(echo $home_url | awk -F/ '{DZ=NF-1}; END {print $DZ}' ) )
 home_cdirs=( $(echo $home_url | cut -d'/' -f4- | awk -F/ '{print NF-1}' ) )
+
 if [[ 0 > $home_cdirs ]]; then
     home_cdirs="0"
 fi
 
+# Xornot: A fix for wget --cut-dirs -1 error
+if [[ -1 = $home_cdirs ]]; then
+    home_cdirs="0"
+fi
+
+echo $home_url
 
 # Check for skipping all backups and changes
 if [[ -z "${SKIPALL-}" ]]; then
@@ -233,5 +241,9 @@ if [[ -z "${SKIPALL-}" ]]; then
 
 fi # end of skip all check
 
+# Xornot: make .htaccess file to permanently redirect (301) all 404 (missing) pages
+echo "RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule . / [L,R=301]" > $home_static-static/.htaccess
 
 exit 0
