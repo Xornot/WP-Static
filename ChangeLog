@@ -3,9 +3,13 @@ CHANGE LOG FILE for wpstatic by Ammon Shepherd <ammon.shepherd@gmail.com>
 FORMAT
 VERSION  DATE (YYYY-MM-DD)  NAME (if none, it's Ammon)
 
+1.3.0 2013-08-16 Xornot https://github.com/Xornot/WP-Static
+	* Fixed wget --cut-dirs -1 error
+	* Added .htaccess file to permanently redirect (301) all 404 (missing) 
+	pages to root
 
 1.2.1  2011-03-24  
-    * Added the EPOCH seconds to the name of the mysql backups so that the
+	* Added the EPOCH seconds to the name of the mysql backups so that the
 	original is not overwritten on subsequent attempts at making a static
 	version.
 	* Added option to make a zip file of the wp-content, .htaccess, and
